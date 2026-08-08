@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>তাসের গেম - সিক্রেট ট্রাম্প</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="game-container">
+  <div class="header">
+    <h1>🃏 সিক্রেট ট্রাম্প - তাসের গেম</h1>
+    <div class="subtitle">আপনি (😎) বনাম ৩ জন AI প্লেয়ার (🤖)</div>
+  </div>
+
+  <div class="scoreboard">
+    <div class="team-score team-a" id="team-a-score">
+      <div class="team-name">🔵 টিম A (আপনি + AI করিম)</div>
+      <div class="points" id="pts-a">0</div>
+      <div style="font-size:0.7em;color:#aaa;">লক্ষ্য কল: <span id="target-a">0</span> | ট্রিক: <span id="trick-a">0</span></div>
+    </div>
+    <div class="team-score team-b" id="team-b-score">
+      <div class="team-name">🔴 টিম B (AI সেলিম + AI রহিম)</div>
+      <div class="points" id="pts-b">0</div>
+      <div style="font-size:0.7em;color:#aaa;">লক্ষ্য কল: <span id="target-b">0</span> | ট্রিক: <span id="trick-b">0</span></div>
+    </div>
+  </div>
+
+  <div class="table-area" id="table">
+    <div class="player-area player-top" id="p2-area">
+      <div class="player-avatar" id="p2-avatar">🤖</div>
+      <div class="player-name">AI রহিম</div>
+      <div class="player-call" id="p2-call"></div>
+      <div class="player-tricks" id="p2-tricks"></div>
+    </div>
+    <div class="player-area player-left" id="p3-area">
+      <div class="player-avatar" id="p3-avatar">🤖</div>
+      <div class="player-name">AI করিম</div>
+      <div class="player-call" id="p3-call"></div>
+      <div class="player-tricks" id="p3-tricks"></div>
+    </div>
+    <div class="player-area player-right" id="p1-area">
+      <div class="player-avatar" id="p1-avatar">🤖</div>
+      <div class="player-name">AI সেলিম</div>
+      <div class="player-call" id="p1-call"></div>
+      <div class="player-tricks" id="p1-tricks"></div>
+    </div>
+    <div class="player-area player-bottom" id="p0-area">
+      <div class="player-avatar you" id="p0-avatar">😎</div>
+      <div class="player-name">আপনি</div>
+      <div class="player-call" id="p0-call"></div>
+      <div class="player-tricks" id="p0-tricks"></div>
+    </div>
+    <div class="played-cards" id="played-cards"></div>
+  </div>
+
+  <div class="info-panel">
+    <div class="message" id="game-message">গেম শুরু করতে "নতুন গেম" বাটনে ক্লিক করুন</div>
+  </div>
+
+  <div class="chat-log" id="chat-log"></div>
+
+  <div class="btn-row" id="main-buttons">
+    <button class="btn btn-primary" onclick="startNewGame()">🔄 নতুন গেম</button>
+    <button class="btn btn-warning" id="btn-bonus" onclick="declareBonus()" disabled>⭐ বোনাস (১০ কল)</button>
+  </div>
+
+  <div class="your-hand" id="your-hand"></div>
+
+  <!-- Call Modal -->
+  <div class="modal-overlay" id="call-modal">
+    <div class="modal">
+      <h2>📢 আপনার কল দিন</h2>
+      <p style="color:#aaa;">৭ থেকে ১৩ এর মধ্যে একটি সংখ্যা বাছাই করুন</p>
+      <div class="call-buttons" id="call-buttons"></div>
+    </div>
+  </div>
+
+  <!-- Trump Modal -->
+  <div class="modal-overlay" id="trump-modal">
+    <div class="modal">
+      <h2>👑 ট্রাম্প স্যুট নির্বাচন করুন</h2>
+      <p style="color:#aaa;">আপনার ৫টি কার্ড দেখে ট্রাম্প স্যুট বাছাই করুন</p>
+      <div class="trump-options" id="trump-options"></div>
+    </div>
+  </div>
+
+  <!-- Winner Banner -->
+  <div class="winner-banner" id="winner-banner">
+    <div class="winner-content">
+      <div class="trophy" id="trophy-icon">🏆</div>
+      <h1 id="winner-text"></h1>
+      <p style="color:#ccc;" id="winner-detail"></p>
+      <button class="btn btn-primary" onclick="startNewGame()" style="margin-top:20px;">🔄 আবার খেলুন</button>
+    </div>
+  </div>
+</div>
+
+<script src="game.js"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"3279d41ec7804124a29acc6e692f9a2b"}' crossorigin="anonymous"></script>
+</body>
+</html>

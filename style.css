@@ -1,0 +1,370 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0a3d0a 0%, #1a5c1a 30%, #0d4d0d 60%, #0a3a0a 100%);
+  min-height: 100vh;
+  color: #fff;
+  overflow-x: hidden;
+}
+.game-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 15px;
+}
+.header {
+  text-align: center;
+  padding: 10px 0;
+}
+.header h1 {
+  font-size: 1.8em;
+  color: #ffd700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 5px;
+}
+.header .subtitle {
+  font-size: 0.85em;
+  color: #ccc;
+}
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+.team-score {
+  background: rgba(0,0,0,0.5);
+  border-radius: 12px;
+  padding: 10px 25px;
+  text-align: center;
+  min-width: 140px;
+  border: 2px solid #444;
+  transition: all 0.3s;
+}
+.team-score.active {
+  border-color: #ffd700;
+  box-shadow: 0 0 15px rgba(255,215,0,0.4);
+}
+.team-score .team-name {
+  font-size: 0.9em;
+  color: #aaa;
+}
+.team-score .points {
+  font-size: 2em;
+  font-weight: bold;
+  color: #ffd700;
+}
+.team-a { border-left: 4px solid #4fc3f7; }
+.team-b { border-left: 4px solid #ef5350; }
+
+.table-area {
+  position: relative;
+  background: radial-gradient(ellipse at center, #1a6e1a 0%, #0d4d0d 70%);
+  border-radius: 50%;
+  width: 100%;
+  max-width: 700px;
+  aspect-ratio: 1;
+  margin: 10px auto;
+  border: 4px solid #3a2a1a;
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.5);
+  min-height: 350px;
+}
+
+.player-area {
+  position: absolute;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+.player-bottom { bottom: -10px; left: 50%; }
+.player-left { left: -10px; top: 50%; }
+.player-top { top: -10px; left: 50%; }
+.player-right { right: -30px; top: 50%; }
+
+.player-avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  margin: 0 auto;
+  transition: all 0.3s;
+}
+.player-avatar.you {
+  border-color: #ffd700;
+  box-shadow: 0 0 12px rgba(255,215,0,0.5);
+  background: rgba(50,30,0,0.7);
+}
+.player-avatar.active-turn {
+  border-color: #00ff88;
+  box-shadow: 0 0 20px rgba(0,255,136,0.6);
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+.player-name {
+  font-size: 0.75em;
+  margin-top: 3px;
+  font-weight: bold;
+}
+.player-call {
+  font-size: 0.7em;
+  color: #ffd700;
+}
+.player-tricks {
+  font-size: 0.65em;
+  color: #aaa;
+}
+
+.played-cards {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.played-card {
+  width: 50px;
+  height: 70px;
+  background: white;
+  border-radius: 6px;
+  color: #000;
+  font-weight: bold;
+  font-size: 0.7em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ccc;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+.played-card .card-rank { font-size: 1.2em; }
+.played-card .card-suit { font-size: 0.85em; }
+.played-card.red { color: #d32f2f; }
+.played-card.black { color: #212121; }
+
+.your-hand {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.85);
+  padding: 10px 15px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  flex-wrap: wrap;
+  z-index: 100;
+  border-top: 2px solid #333;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.hand-card {
+  width: 70px;
+  min-height: 98px;
+  background: #fff;
+  border-radius: 8px;
+  color: #000;
+  font-weight: bold;
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #bbb;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.hand-card:hover {
+  transform: translateY(-15px);
+  border-color: #ffd700;
+  box-shadow: 0 8px 20px rgba(255,215,0,0.4);
+}
+.hand-card.selected {
+  transform: translateY(-20px);
+  border-color: #00ff88;
+  box-shadow: 0 8px 25px rgba(0,255,136,0.5);
+}
+.hand-card .card-rank { font-size: 1.3em; }
+.hand-card .card-suit { font-size: 1em; }
+.hand-card.red { color: #d32f2f; }
+.hand-card.black { color: #212121; }
+
+.info-panel {
+  background: rgba(0,0,0,0.7);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 10px auto;
+  max-width: 700px;
+  text-align: center;
+  border: 1px solid #333;
+}
+.info-panel .message {
+  font-size: 1em;
+  color: #fff;
+}
+.info-panel .highlight {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+.btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #fff;
+}
+.btn:hover { transform: scale(1.05); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-primary { background: linear-gradient(135deg, #ffd700, #ffaa00); color: #000; }
+.btn-success { background: linear-gradient(135deg, #4caf50, #2e7d32); }
+.btn-danger { background: linear-gradient(135deg, #f44336, #c62828); }
+.btn-warning { background: linear-gradient(135deg, #ff9800, #e65100); }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  display: none;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: #1a1a2e;
+  border-radius: 16px;
+  padding: 25px;
+  text-align: center;
+  border: 2px solid #ffd700;
+  max-width: 400px;
+  width: 90%;
+}
+.modal h2 {
+  color: #ffd700;
+  margin-bottom: 15px;
+}
+.modal .call-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 15px 0;
+}
+.modal .call-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+  background: rgba(0,0,0,0.5);
+  color: #ffd700;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.modal .call-btn:hover {
+  background: #ffd700;
+  color: #000;
+}
+
+.trump-options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.trump-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  border: 2px solid #555;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.trump-btn:hover {
+  border-color: #ffd700;
+  transform: scale(1.1);
+}
+
+.winner-banner {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 300;
+  display: none;
+}
+.winner-banner.show { display: flex; }
+.winner-content {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  border: 3px solid #ffd700;
+  animation: scaleIn 0.5s ease;
+}
+@keyframes scaleIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.winner-content h1 {
+  font-size: 2.5em;
+  color: #ffd700;
+  margin-bottom: 10px;
+}
+.winner-content .trophy { font-size: 4em; }
+
+.chat-log {
+  background: rgba(0,0,0,0.5);
+  border-radius: 8px;
+  padding: 8px 12px;
+  max-height: 150px;
+  overflow-y: auto;
+  margin: 8px 0;
+  font-size: 0.8em;
+  max-width: 700px;
+  margin: 10px auto;
+}
+.chat-log .entry {
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.chat-log .trump-reveal {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  .table-area { max-width: 380px; min-height: 300px; }
+  .player-avatar { width: 40px; height: 40px; font-size: 1.2em; }
+  .hand-card { width: 50px; min-height: 70px; font-size: 0.65em; }
+  .played-card { width: 38px; height: 55px; font-size: 0.6em; }
+}
